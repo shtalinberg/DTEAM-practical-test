@@ -1,0 +1,656 @@
+[
+  {
+    "model": "cvsai.skill",
+    "pk": 1,
+    "fields": {
+      "name": "Python"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 2,
+    "fields": {
+      "name": "Django"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 3,
+    "fields": {
+      "name": "JavaScript"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 4,
+    "fields": {
+      "name": "React"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 5,
+    "fields": {
+      "name": "PostgreSQL"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 6,
+    "fields": {
+      "name": "Docker"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 7,
+    "fields": {
+      "name": "Git"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 8,
+    "fields": {
+      "name": "AWS"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 9,
+    "fields": {
+      "name": "Linux"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 10,
+    "fields": {
+      "name": "Redis"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 11,
+    "fields": {
+      "name": "FastAPI"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 12,
+    "fields": {
+      "name": "Vue.js"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 13,
+    "fields": {
+      "name": "MongoDB"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 14,
+    "fields": {
+      "name": "Node.js"
+    }
+  },
+  {
+    "model": "cvsai.skill",
+    "pk": 15,
+    "fields": {
+      "name": "TypeScript"
+    }
+  },
+  {
+    "model": "cvsai.resume",
+    "pk": 1,
+    "fields": {
+      "firstname": "John",
+      "lastname": "Smith",
+      "title": "Senior Full-Stack Developer",
+      "bio": "Experienced full-stack developer with 5+ years in web development. Passionate about creating scalable applications and leading development teams.",
+      "created_at": "2024-01-15T10:30:00",
+      "updated_at": "2024-01-15T10:30:00"
+    }
+  },
+  {
+    "model": "cvsai.resume",
+    "pk": 2,
+    "fields": {
+      "firstname": "Emma",
+      "lastname": "Johnson",
+      "title": "Frontend Developer",
+      "bio": "Frontend developer specializing in React and modern JavaScript frameworks. Strong focus on user experience and responsive design.",
+      "created_at": "2024-01-16T09:15:00",
+      "updated_at": "2024-01-16T09:15:00"
+    }
+  },
+  {
+    "model": "cvsai.resume",
+    "pk": 3,
+    "fields": {
+      "firstname": "Michael",
+      "lastname": "Davis",
+      "title": "Backend Engineer",
+      "bio": "Backend engineer with expertise in Python and Django. Experience in building robust APIs and microservices architecture.",
+      "created_at": "2024-01-17T14:20:00",
+      "updated_at": "2024-01-17T14:20:00"
+    }
+  },
+  {
+    "model": "cvsai.resume",
+    "pk": 4,
+    "fields": {
+      "firstname": "Sarah",
+      "lastname": "Wilson",
+      "title": "DevOps Engineer",
+      "bio": "DevOps engineer with strong background in cloud infrastructure and automation. AWS certified professional.",
+      "created_at": "2024-01-18T11:45:00",
+      "updated_at": "2024-01-18T11:45:00"
+    }
+  },
+  {
+    "model": "cvsai.resume",
+    "pk": 5,
+    "fields": {
+      "firstname": "David",
+      "lastname": "Brown",
+      "title": "Full-Stack Developer",
+      "bio": "Full-stack developer with passion for clean code and test-driven development. Experience in both startup and enterprise environments.",
+      "created_at": "2024-01-19T16:10:00",
+      "updated_at": "2024-01-19T16:10:00"
+    }
+  },
+  {
+    "model": "cvsai.resume",
+    "pk": 6,
+    "fields": {
+      "firstname": "Lisa",
+      "lastname": "Miller",
+      "title": "Senior Frontend Architect",
+      "bio": "Senior frontend architect with 8+ years experience. Specialist in performance optimization and modern web technologies.",
+      "created_at": "2024-01-20T08:30:00",
+      "updated_at": "2024-01-20T08:30:00"
+    }
+  },
+  {
+    "model": "cvsai.resume",
+    "pk": 7,
+    "fields": {
+      "firstname": "Robert",
+      "lastname": "Garcia",
+      "title": "Python Developer",
+      "bio": "Python developer with strong background in data processing and web scraping. Experience with Django and FastAPI frameworks.",
+      "created_at": "2024-01-21T13:25:00",
+      "updated_at": "2024-01-21T13:25:00"
+    }
+  },
+  {
+    "model": "cvsai.resume",
+    "pk": 8,
+    "fields": {
+      "firstname": "Jennifer",
+      "lastname": "Anderson",
+      "title": "Full-Stack Engineer",
+      "bio": "Full-stack engineer with expertise in JavaScript ecosystem. Passionate about building user-friendly applications and mentoring junior developers.",
+      "created_at": "2024-01-22T10:50:00",
+      "updated_at": "2024-01-22T10:50:00"
+    }
+  },
+  {
+    "model": "cvsai.resume",
+    "pk": 9,
+    "fields": {
+      "firstname": "James",
+      "lastname": "Taylor",
+      "title": "Software Architect",
+      "bio": "Software architect with 10+ years experience in designing scalable systems. Expert in microservices and cloud-native applications.",
+      "created_at": "2024-01-23T15:15:00",
+      "updated_at": "2024-01-23T15:15:00"
+    }
+  },
+  {
+    "model": "cvsai.resume",
+    "pk": 10,
+    "fields": {
+      "firstname": "Amanda",
+      "lastname": "White",
+      "title": "Backend Developer",
+      "bio": "Backend developer specializing in API development and database optimization. Strong experience with PostgreSQL and Redis.",
+      "created_at": "2024-01-24T12:40:00",
+      "updated_at": "2024-01-24T12:40:00"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 1,
+    "fields": {
+      "resume": 1,
+      "skill": 1,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 2,
+    "fields": {
+      "resume": 1,
+      "skill": 2,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 3,
+    "fields": {
+      "resume": 1,
+      "skill": 3,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 4,
+    "fields": {
+      "resume": 2,
+      "skill": 3,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 5,
+    "fields": {
+      "resume": 2,
+      "skill": 4,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 6,
+    "fields": {
+      "resume": 2,
+      "skill": 15,
+      "level": "intermediate"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 7,
+    "fields": {
+      "resume": 3,
+      "skill": 1,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 8,
+    "fields": {
+      "resume": 3,
+      "skill": 2,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 9,
+    "fields": {
+      "resume": 3,
+      "skill": 5,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 10,
+    "fields": {
+      "resume": 4,
+      "skill": 6,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 11,
+    "fields": {
+      "resume": 4,
+      "skill": 8,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 12,
+    "fields": {
+      "resume": 4,
+      "skill": 9,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 13,
+    "fields": {
+      "resume": 5,
+      "skill": 1,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 14,
+    "fields": {
+      "resume": 5,
+      "skill": 3,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 15,
+    "fields": {
+      "resume": 5,
+      "skill": 7,
+      "level": "intermediate"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 16,
+    "fields": {
+      "resume": 6,
+      "skill": 3,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 17,
+    "fields": {
+      "resume": 6,
+      "skill": 4,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 18,
+    "fields": {
+      "resume": 6,
+      "skill": 12,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 19,
+    "fields": {
+      "resume": 7,
+      "skill": 1,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 20,
+    "fields": {
+      "resume": 7,
+      "skill": 11,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 21,
+    "fields": {
+      "resume": 8,
+      "skill": 3,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 22,
+    "fields": {
+      "resume": 8,
+      "skill": 14,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 23,
+    "fields": {
+      "resume": 8,
+      "skill": 13,
+      "level": "intermediate"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 24,
+    "fields": {
+      "resume": 9,
+      "skill": 1,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 25,
+    "fields": {
+      "resume": 9,
+      "skill": 6,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 26,
+    "fields": {
+      "resume": 9,
+      "skill": 8,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 27,
+    "fields": {
+      "resume": 10,
+      "skill": 1,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 28,
+    "fields": {
+      "resume": 10,
+      "skill": 5,
+      "level": "expert"
+    }
+  },
+  {
+    "model": "cvsai.resumeskill",
+    "pk": 29,
+    "fields": {
+      "resume": 10,
+      "skill": 10,
+      "level": "advanced"
+    }
+  },
+  {
+    "model": "cvsai.project",
+    "pk": 1,
+    "fields": {
+      "resume": 1,
+      "title": "E-commerce Platform",
+      "description": "Full-stack e-commerce solution with Django backend and React frontend. Implemented payment processing, inventory management, and admin dashboard.",
+      "url": "https://github.com/johnsmith/ecommerce-platform",
+      "start_date": "2023-01-15",
+      "end_date": "2023-08-30"
+    }
+  },
+  {
+    "model": "cvsai.project",
+    "pk": 2,
+    "fields": {
+      "resume": 1,
+      "title": "Task Management API",
+      "description": "RESTful API for task management application built with Django REST Framework. Features include user authentication, team collaboration, and real-time notifications.",
+      "url": "https://github.com/johnsmith/task-api",
+      "start_date": "2023-09-01",
+      "end_date": null
+    }
+  },
+  {
+    "model": "cvsai.project",
+    "pk": 3,
+    "fields": {
+      "resume": 2,
+      "title": "React Dashboard",
+      "description": "Modern analytics dashboard built with React and TypeScript. Features responsive design, data visualization with Chart.js, and real-time updates.",
+      "url": "https://github.com/emmajohnson/react-dashboard",
+      "start_date": "2023-03-01",
+      "end_date": "2023-07-15"
+    }
+  },
+  {
+    "model": "cvsai.project",
+    "pk": 4,
+    "fields": {
+      "resume": 3,
+      "title": "Microservices Architecture",
+      "description": "Designed and implemented microservices architecture for large-scale application. Used Django, PostgreSQL, Redis, and Docker for containerization.",
+      "url": "",
+      "start_date": "2022-06-01",
+      "end_date": "2023-12-31"
+    }
+  },
+  {
+    "model": "cvsai.project",
+    "pk": 5,
+    "fields": {
+      "resume": 4,
+      "title": "AWS Infrastructure Automation",
+      "description": "Automated AWS infrastructure deployment using Terraform and Ansible. Implemented CI/CD pipelines with Jenkins and Docker.",
+      "url": "",
+      "start_date": "2023-01-01",
+      "end_date": null
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 1,
+    "fields": {
+      "resume": 1,
+      "contact_type": "email",
+      "value": "john.smith@email.com"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 2,
+    "fields": {
+      "resume": 1,
+      "contact_type": "github",
+      "value": "https://github.com/johnsmith"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 3,
+    "fields": {
+      "resume": 2,
+      "contact_type": "email",
+      "value": "emma.johnson@email.com"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 4,
+    "fields": {
+      "resume": 2,
+      "contact_type": "linkedin",
+      "value": "https://linkedin.com/in/emmajohnson"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 5,
+    "fields": {
+      "resume": 3,
+      "contact_type": "email",
+      "value": "michael.davis@email.com"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 6,
+    "fields": {
+      "resume": 4,
+      "contact_type": "email",
+      "value": "sarah.wilson@email.com"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 7,
+    "fields": {
+      "resume": 5,
+      "contact_type": "email",
+      "value": "david.brown@email.com"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 8,
+    "fields": {
+      "resume": 6,
+      "contact_type": "email",
+      "value": "lisa.miller@email.com"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 9,
+    "fields": {
+      "resume": 7,
+      "contact_type": "email",
+      "value": "robert.garcia@email.com"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 10,
+    "fields": {
+      "resume": 8,
+      "contact_type": "email",
+      "value": "jennifer.anderson@email.com"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 11,
+    "fields": {
+      "resume": 9,
+      "contact_type": "email",
+      "value": "james.taylor@email.com"
+    }
+  },
+  {
+    "model": "cvsai.contact",
+    "pk": 12,
+    "fields": {
+      "resume": 10,
+      "contact_type": "email",
+      "value": "amanda.white@email.com"
+    }
+  }
+]
