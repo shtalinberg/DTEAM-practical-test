@@ -23,3 +23,13 @@
    ```bash
    python sc_backend/manage.py loaddata cvsai_initial_data
    ```
+
+### Run pytest tests
+
+   ```bash
+   cd sc_backend && pytest
+   ```
+or
+   ```bash
+   make pytest
+   ```
