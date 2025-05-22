@@ -17,3 +17,9 @@
    ```bash
    poetry install
    ```
+
+### Load cvsai app fixtures - initial data
+
+   ```bash
+   python sc_backend/manage.py loaddata cvsai_initial_data
+   ```

@@ -25,6 +25,7 @@ def join_to_project(slug):
 def join_to_manage(slug):
     return os.path.join(MANAGE_ROOT, slug)
 
+
 sys.path.insert(0, join_to_manage("djapps"))
 sys.path.insert(1, MANAGE_ROOT)
 
@@ -32,7 +33,9 @@ sys.path.insert(1, MANAGE_ROOT)
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-45c1crm(e*sn@7%@5wf779i63r$%5&0ub=msy_n%5&ych$q*&&")
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", "django-insecure-45c1crm(e*sn@7%@5wf779i63r$%5&0ub=msy_n%5&ych$q*&&"
+)
 
 
 # SECURITY WARNING: don't run with debug turned on in production!

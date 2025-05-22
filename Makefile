@@ -13,6 +13,11 @@ flake8:
 	flake8 --show-source sc_backend/
 	@echo "Finish flake8"
 
+pylint:
+	@echo "Running pylint"
+	pylint --rcfile=.pylintrc ./sc_backend
+	@echo "Finish pylint"
+
 pytest:
 	@echo "Run pytest"
 	cd sc_backend &&  pytest

@@ -17,31 +17,25 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Назва</th>
-                <th>Код (МФО)</th>
-                <th>Тип</th>
-                <th>Місто</th>
-                <th>SWIFT код</th>
-                <th>Дії</th>
+                <th>{% translate "Full name" %}</th>
+                <th>{% translate "Title" %}</th>
+                <th>{% translate "Skills" %}</th>
+                <th>{% translate "Created" %}</th>
+                <th>{% translate "Actions" %}</th>
               </tr>
             </thead>
             <tbody>
               {% for resume in resumes %}
                 <tr>
-                  <td>{{ resume.name }}</td>
-                  <td>{{ resume.code|default:"-" }}</td>
-                  <td>{{ resume.get_bank_type_display }}</td>
-                  <td>{{ resume.city|default:"-" }}</td>
-                  <td>{{ resume.swift_code|default:"-" }}</td>
+                  <td>{{ resume.full_name }}</td>
+                  <td>{{ resume.title }}</td>
+                  <td>{{ resume.skills.all|join:", " }}</td>
+                  <td>{{ resume.created_at|date:"d.m.Y H:i" }}</td>
                   <td>
                     <div class="btn-group">
                       <a href="{% url 'cv_detail' resume.id %}" class="btn btn-sm btn-outline-primary">
                         <i class="fas fa-eye"></i>
                       </a>
-                      <button type="button" class="btn btn-sm btn-outline-danger"
-                              data-bs-toggle="modal" data-bs-target="#deleteModal{{ resume.id }}">
-                        <i class="fas fa-trash"></i>
-                      </button>
                     </div>
 
                   </td>

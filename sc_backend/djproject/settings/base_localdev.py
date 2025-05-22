@@ -11,7 +11,6 @@ TESTING_MODE = len(sys.argv) > 1 and sys.argv[1] == "test"
 RUNLOCAL_MODE = len(sys.argv) > 1 and sys.argv[1] == "runserver"
 SSLIFY_DISABLE = True
 SECURE_SSL_REDIRECT = False
-CACHE_LOCAL_OFF = True
 
 
 EMAIL_SUBJECT_PREFIX = "[local] "

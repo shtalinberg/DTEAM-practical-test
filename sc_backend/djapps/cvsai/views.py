@@ -7,6 +7,7 @@ from cvsai.models import Resume
 
 class ResumeListView(ListView):
     """Render a list of resumes."""
+
     model = Resume
     template_name = 'cvsai/resume_list.html'
     context_object_name = 'resumes'
@@ -17,9 +18,10 @@ class ResumeListView(ListView):
 
 class ResumeDetailView(DetailView):
     """View for displaying resume details."""
+
     model = Resume
     template_name = 'cvsai/resume_detail.html'
     context_object_name = 'resume'
 
     def get_queryset(self):
-        return Resume.objects.filter(is_deleted=False)
+        return Resume.objects.all()

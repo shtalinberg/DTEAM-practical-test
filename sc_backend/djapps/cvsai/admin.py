@@ -6,6 +6,7 @@ from cvsai.models import Contact, Resume, ResumeSkill, Skill
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
     """Admin view for the Skill model."""
+
     list_display = ('name',)
     search_fields = ('name',)
     ordering = ('name',)
@@ -13,9 +14,11 @@ class SkillAdmin(admin.ModelAdmin):
     list_per_page = 20
     list_display_links = ('name',)
 
+
 @admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
     """Admin view for the Resume model."""
+
     list_display = ('firstname', 'lastname', 'created_at')
     search_fields = ('firstname', 'lastname')
     ordering = ('-created_at',)
@@ -25,9 +28,11 @@ class ResumeAdmin(admin.ModelAdmin):
     raw_id_fields = ('skills',)
     autocomplete_fields = ('skills',)
 
+
 @admin.register(ResumeSkill)
 class ResumeSkillAdmin(admin.ModelAdmin):
     """Admin view for the ResumeSkill model."""
+
     list_display = ('resume', 'skill', 'level')
     search_fields = ('resume__firstname', 'resume__lastname', 'skill__name')
     ordering = ('resume',)
@@ -42,6 +47,7 @@ class ResumeSkillAdmin(admin.ModelAdmin):
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
     """Admin view for the Contact model."""
+
     list_display = ('contact_type', 'value', 'resume')
     search_fields = ('contact_type', 'value', 'resume__firstname', 'resume__lastname')
     ordering = ('resume',)
@@ -50,4 +56,3 @@ class ContactAdmin(admin.ModelAdmin):
     list_display_links = ('contact_type', 'value')
     raw_id_fields = ('resume',)
     autocomplete_fields = ('resume',)
-

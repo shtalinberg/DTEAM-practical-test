@@ -1,22 +1,27 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{% translate "Resume Detail" %}{% endblock %}
+{% block title %}{{ resume.full_name }} {% translate "resume detail" %}{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>{% translate "Resume Detail" %}</h1>
+    <h1>{{ resume.full_name }}</h1>
   </div>
 
   <div class="card">
     <div class="card-body">
       {% if resume %}
-        <h2>{{ resume.name }}</h2>
-        <p><strong>{% translate "Code:" %}</strong> {{ resume.code|default:"-" }}</p>
-        <p><strong>{% translate "Type:" %}</strong> {{ resume.get_bank_type_display }}</p>
-        <p><strong>{% translate "City:" %}</strong> {{ resume.city|default:"-" }}</p>
-        <p><strong>{% translate "SWIFT Code:" %}</strong> {{ resume.swift_code|default:"-" }}</p>
+        <h2>{{ resume.title }}</h2>
+        <p><strong>{% translate "Bio:" %}</strong> {{ resume.bio|linebreaks }}</p>
+        <p><strong>{% translate "Skills:" %}</strong> {{ resume.skills.all|join:", " }}</p>
+        <p><strong>{% translate "Created:" %}</strong> {{ resume.created_at|date:"d.m.Y H:i" }}</p>
+
+        <div class="btn-group">
+          <a href="{% url 'cv_list' %}" class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> {% translate "Back to list" %}
+          </a>
+        </div>
       {% else %}
         <div class="alert alert-info">
           <strong>{% translate "No resume found." %}</strong>
@@ -24,3 +29,5 @@
       {% endif %}
     </div>
   </div>
+</div>
+{% endblock %}

@@ -8,10 +8,7 @@ class Skill(models.Model):
     """Model representing a skill."""
 
     name = models.CharField(
-        verbose_name=_("name"),
-        max_length=100,
-        unique=True,
-        help_text=_("Skill name")
+        verbose_name=_("name"), max_length=100, unique=True, help_text=_("Skill name")
     )
 
     class Meta:
@@ -29,23 +26,28 @@ class Resume(models.Model):
     firstname = models.CharField(
         verbose_name=_("First name"),
         max_length=120,
-        help_text=_("First name of the person")
+        help_text=_("First name of the person"),
     )
     lastname = models.CharField(
         verbose_name=_("Last name"),
         max_length=120,
-        help_text=_("Last name of the person")
+        help_text=_("Last name of the person"),
+    )
+    title = models.CharField(
+        verbose_name=_("Job Title"),
+        max_length=300,
+        help_text=_("Professional title or position"),
+        blank=True,
     )
     bio = models.TextField(
-        verbose_name=_("Biography"),
-        help_text=_("Professional biography or summary")
+        verbose_name=_("Biography"), help_text=_("Professional biography or summary")
     )
     skills = models.ManyToManyField(
         'Skill',
         verbose_name=_("Skills"),
         through='ResumeSkill',
         blank=True,
-        help_text=_("Skills with proficiency levels")
+        help_text=_("Skills with proficiency levels"),
     )
 
     created_at = models.DateTimeField(verbose_name=_("created"), auto_now_add=True)
@@ -64,6 +66,7 @@ class Resume(models.Model):
         """Return full name."""
         return f"{self.firstname} {self.lastname}"
 
+
 class ResumeSkill(models.Model):
     """Through model for Resume-Skill relationship with level."""
 
@@ -73,7 +76,7 @@ class ResumeSkill(models.Model):
         verbose_name=_("Skill Level"),
         max_length=20,
         choices=SKILL_LEVELS,
-        default=SL_INTERMEDIATE
+        default=SL_INTERMEDIATE,
     )
 
     class Meta:
@@ -93,32 +96,23 @@ class Project(models.Model):
         Resume,
         verbose_name=_("Resume"),
         on_delete=models.CASCADE,
-        related_name='projects'
+        related_name='projects',
     )
     title = models.CharField(
-        verbose_name=_("Title"),
-        max_length=200,
-        help_text=_("Project title")
+        verbose_name=_("Title"), max_length=200, help_text=_("Project title")
     )
     description = models.TextField(
-        verbose_name=_("Description"),
-        help_text=_("Project description")
+        verbose_name=_("Description"), help_text=_("Project description")
     )
     url = models.URLField(
-        verbose_name=_("Project URL"),
-        blank=True,
-        help_text=_("Project URL (optional)")
+        verbose_name=_("Project URL"), blank=True, help_text=_("Project URL (optional)")
     )
-    start_date = models.DateField(
-        verbose_name=_("Start date"),
-        null=True,
-        blank=True
-    )
+    start_date = models.DateField(verbose_name=_("Start date"), null=True, blank=True)
     end_date = models.DateField(
         verbose_name=_("End date"),
         null=True,
         blank=True,
-        help_text=_("Leave empty if project is ongoing")
+        help_text=_("Leave empty if project is ongoing"),
     )
 
     class Meta:
@@ -142,17 +136,15 @@ class Contact(models.Model):
         Resume,
         verbose_name=_("Resume"),
         on_delete=models.CASCADE,
-        related_name='contacts'
+        related_name='contacts',
     )
     contact_type = models.CharField(
-        verbose_name=_("Contact Type"),
-        max_length=20,
-        choices=CONTACT_TYPES
+        verbose_name=_("Contact Type"), max_length=20, choices=CONTACT_TYPES
     )
     value = models.CharField(
         verbose_name=_("Contact Value"),
         max_length=200,
-        help_text=("Contact value (email, phone number, URL, etc.)")
+        help_text=("Contact value (email, phone number, URL, etc.)"),
     )
 
     class Meta:
