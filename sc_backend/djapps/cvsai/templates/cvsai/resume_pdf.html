@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ resume.full_name }} - Resume</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .pdf-only {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        .header h2 {
+            font-size: 16px;
+            margin: 5px 0;
+            color: #7f8c8d;
+            font-weight: normal;
+        }
+
+        .contacts {
+            margin-top: 10px;
+            font-size: 11px;
+            color: #555;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+        }
+
+        .bio {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        .skills {
+            display: table;
+            width: 100%;
+        }
+
+        .skill-row {
+            display: table-row;
+        }
+
+        .skill-item {
+            display: table-cell;
+            width: 33%;
+            background: #f8f9fa;
+            padding: 8px;
+            margin: 2px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+
+        .skill-name {
+            font-weight: bold;
+            display: block;
+        }
+
+        .skill-level {
+            font-size: 10px;
+            color: #6c757d;
+            text-transform: capitalize;
+        }
+
+        .project {
+            margin-bottom: 15px;
+            border-left: 3px solid #3498db;
+            padding-left: 10px;
+        }
+
+        .project-header {
+            margin-bottom: 5px;
+        }
+
+        .project-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        .project-dates {
+            font-size: 10px;
+            color: #6c757d;
+            float: right;
+        }
+
+        .project-url {
+            font-size: 10px;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+
+        .project-description {
+            text-align: justify;
+            clear: both;
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        /* PDF-specific styles */
+        .pdf-watermark {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 8px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{ resume.full_name }}</h1>
+        <h2>{{ resume.title }}</h2>
+
+        <div class="contacts">
+            {% for contact in resume.contacts.all %}
+                {{ contact.get_contact_type_display }}: {{ contact.value }}
+                {% if not forloop.last %} | {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if resume.bio %}
+    <div class="section">
+        <h3 class="section-title">Professional Summary</h3>
+        <div class="bio">{{ resume.bio }}</div>
+    </div>
+    {% endif %}
+
+    {% if resume.skills.exists %}
+    <div class="section">
+        <h3 class="section-title">Skills</h3>
+        <div class="skills">
+            {% for resume_skill in resume.resumeskill_set.all %}
+                {% if forloop.counter0|divisibleby:3 %}<div class="skill-row">{% endif %}
+                <div class="skill-item">
+                    <span class="skill-name"><b>{{ resume_skill.skill.name }}</b> - <small>{{ resume_skill.get_level_display }}</small></span>
+                </div>
+                {% if forloop.counter|divisibleby:3 or forloop.last %}</div>{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if resume.projects.exists %}
+    <div class="section">
+        <h3 class="section-title">Projects</h3>
+        {% for project in resume.projects.all %}
+            <div class="project">
+                <div class="project-header">
+                    <span class="project-title">{{ project.title }}</span>
+                    <span class="project-dates">
+                        {% if project.start_date %}{{ project.start_date|date:"M Y" }}{% endif %}
+                        {% if project.end_date %} - {{ project.end_date|date:"M Y" }}{% else %} - Present{% endif %}
+                    </span>
+                    <div class="clearfix"></div>
+                </div>
+
+                {% if project.url %}
+                    <div class="project-url">{{ project.url }}</div>
+                {% endif %}
+
+                <div class="project-description">{{ project.description }}</div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="pdf-watermark">
+        Generated on {% now "Y-m-d H:i" %}
+    </div>
+</body>
+</html>
