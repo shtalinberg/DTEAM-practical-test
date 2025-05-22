@@ -30,8 +30,6 @@ sys.path.insert(0, join_to_manage("djapps"))
 sys.path.insert(1, MANAGE_ROOT)
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get(
     "SECRET_KEY", "django-insecure-45c1crm(e*sn@7%@5wf779i63r$%5&0ub=msy_n%5&ych$q*&&"
@@ -139,6 +137,7 @@ MEDIA_ROOT = join_to_repo("media")
 STATIC_ROOT = join_to_repo("allstatic")
 STATIC_URL = "static/"
 MEDIA_URL = "/media/"
+
 # Additional locations of static files
 STATICFILES_DIRS = [join_to_project("static")]
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760 * 10  # 100 MB

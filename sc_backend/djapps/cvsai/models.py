@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from cvsai.constants import CONTACT_TYPES, SKILL_LEVELS, SL_INTERMEDIATE
@@ -65,6 +66,10 @@ class Resume(models.Model):
     def full_name(self):
         """Return full name."""
         return f"{self.firstname} {self.lastname}"
+
+    def get_absolute_url(self):
+        """Return the URL for the resume instance."""
+        return reverse('cvsai:cv_detail', args=[str(self.id)])
 
 
 class ResumeSkill(models.Model):

@@ -33,7 +33,7 @@
                   <td>{{ resume.created_at|date:"d.m.Y H:i" }}</td>
                   <td>
                     <div class="btn-group">
-                      <a href="{% url 'cv_detail' resume.id %}" class="btn btn-sm btn-outline-primary">
+                      <a href="{{ resume.get_absolute_url }}" class="btn btn-sm btn-outline-primary">
                         <i class="fas fa-eye"></i>
                       </a>
                     </div>

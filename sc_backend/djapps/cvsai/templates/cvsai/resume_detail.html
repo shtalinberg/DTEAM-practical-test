@@ -15,10 +15,23 @@
         <h2>{{ resume.title }}</h2>
         <p><strong>{% translate "Bio:" %}</strong> {{ resume.bio|linebreaks }}</p>
         <p><strong>{% translate "Skills:" %}</strong> {{ resume.skills.all|join:", " }}</p>
+
+          {% for project in resume.projects.all %}
+          {% if forloop.first %}<p><strong>{% translate "Projects:" %}</strong>{% endif %}
+            <div class="card mb-2">
+              <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">{{ project.start_date|date:"d.m.Y" }} - {{ project.end_date|date:"d.m.Y" }}</h6>
+                <h5 class="card-title ">{{ project.title }}</h5>
+                <p class="card-text">{{ project.description|linebreaks }}</p>
+              </div>
+            </div>
+          {% if forloop.last %}</p>{% endif %}
+          {% endfor %}
+
         <p><strong>{% translate "Created:" %}</strong> {{ resume.created_at|date:"d.m.Y H:i" }}</p>
 
         <div class="btn-group">
-          <a href="{% url 'cv_list' %}" class="btn btn-sm btn-outline-primary">
+          <a href="{% url 'cvsai:cv_list' %}" class="btn btn-sm btn-outline-primary">
             <i class="fas fa-arrow-left"></i> {% translate "Back to list" %}
           </a>
         </div>
