@@ -1,0 +1,76 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Django stuff:
+*.log
+*.db
+*.pgsql
+*.sqlite3
+*.sqlite3-journal
+*secret.txt$
+help-man
+logs/
+allstatic/
+media/
+sc_backend/djproject/settings/local.py
+sc_backend/faproject
+sc_backend/local_games.py
+
+
+# Docker stuff:
+docker/.env
+docker/data/
+
+# Sphinx documentation
+docs/_build/
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# Celery stuff
+sc_backend/celerybeat-schedule
+celerybeat-schedule
+celerybeat.pid
+
+# Environments
+.env
+.venv
+env/
+venv/
+.venv3/
+ENV/
+env.bak/
+venv.bak/
+*.swp
+*.sql
+*.orig
+*.rej
+*~
+*.DS_Store
+
+# VSCode
+*.code-workspace
+
+# PyCharm
+.idea/
