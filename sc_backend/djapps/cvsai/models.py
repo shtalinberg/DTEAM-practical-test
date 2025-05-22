@@ -71,6 +71,10 @@ class Resume(models.Model):
         """Return the URL for the resume instance."""
         return reverse('cvsai:cv_detail', args=[str(self.id)])
 
+    def get_download_pdf_url(self):
+        """Return the URL for downloading the resume as a PDF."""
+        return reverse('cvsai:cv_download_pdf', args=[str(self.id)])
+
 
 class ResumeSkill(models.Model):
     """Through model for Resume-Skill relationship with level."""

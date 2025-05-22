@@ -29,6 +29,10 @@
           {% endfor %}
 
         <p><strong>{% translate "Created:" %}</strong> {{ resume.created_at|date:"d.m.Y H:i" }}</p>
+        <p><a href="{{ resume.get_download_pdf_url }}" class="btn btn-secondary">
+          <i class="fas fa-file-pdf"></i> {% translate "Download PDF" %}
+        </a></p>
+
 
         <div class="btn-group">
           <a href="{% url 'cvsai:cv_list' %}" class="btn btn-sm btn-outline-primary">
