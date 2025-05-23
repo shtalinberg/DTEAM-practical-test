@@ -1,6 +1,5 @@
 import io
 
-from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
 
@@ -26,6 +25,5 @@ def render_to_pdf(template_src, context_dict, filename):
         return response
 
     return HttpResponse(
-        f'We had some errors generating PDF: <b>{pdf.err}</b>',
-        status=500
+        f'We had some errors generating PDF: <b>{pdf.err}</b>', status=500
     )
