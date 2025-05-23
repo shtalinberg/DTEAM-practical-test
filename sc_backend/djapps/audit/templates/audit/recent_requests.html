@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Recent Requests" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>{% translate "Recent Requests" %}</h1>
+            <p class="text-muted">{% translate "Showing 10 most recent logged requests" %}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-list"></i> {% translate "Latest Activity" %}
+                <span class="badge bg-primary ms-2">{{ recent_logs|length }}</span>
+            </h5>
+        </div>
+        <div class="card-body">
+            {% if recent_logs %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{% translate "Timestamp" %}</th>
+                                <th>{% translate "Method" %}</th>
+                                <th>{% translate "Path" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in recent_logs %}
+                                <tr>
+                                    <td>
+                                        <span class="text-muted">{{ log.formatted_timestamp }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{% if log.method == 'GET' %}primary{% elif log.method == 'POST' %}success{% elif log.method == 'PUT' %}warning{% elif log.method == 'PATCH' %}info{% elif log.method == 'DELETE' %}danger{% else %}secondary{% endif %}">
+                                            {{ log.method }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <code>{{ log.path }}</code>
+                                        {% if log.query_string %}
+                                            <small class="text-muted">?{{ log.query_string }}</small>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center text-muted py-4">
+                    <i class="fas fa-inbox fa-3x mb-3"></i>
+                    <h5>{% translate "No requests logged yet" %}</h5>
+                    <p>{% translate "Start browsing the site to see logged requests here" %}</p>
+                </div>
+            {% endif %}
+        </div>
+        {% if recent_logs %}
+            <div class="card-footer text-muted">
+                <small>
+                    <i class="fas fa-info-circle"></i>
+                    {% translate "Showing the 10 most recent requests. For advanced filtering and full history, visit" %}
+                    <a href="{% url 'audit:log_requests' %}">{% translate "detailed logs" %}</a>.
+                </small>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
