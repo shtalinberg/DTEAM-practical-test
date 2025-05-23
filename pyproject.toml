@@ -18,8 +18,11 @@ redis = "^6.1.0"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.0"
 pytest-django = "^4.11.0"
+pylint-celery = "^0.3"
 black = "^25.1.0"
 flake8 = "^7.1.0"
+pylint = "^3.3.7"
+pylint-django = "^2.6.1"
 
 [build-system]
 requires = ["poetry-core"]

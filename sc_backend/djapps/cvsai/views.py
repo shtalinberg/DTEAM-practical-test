@@ -70,9 +70,8 @@ def send_cv_email(request, pk):
         response_data = {'status': 'error', 'message': 'Email address is required'}
         if request.headers.get('Content-Type') == 'application/json':
             return JsonResponse(response_data, status=400)
-        else:
-            messages.error(request, response_data['message'])
-            return redirect('cvsai:cv_detail', pk=pk)
+        messages.error(request, response_data['message'])
+        return redirect('cvsai:cv_detail', pk=pk)
 
     # Validate email using form
     form = SendCVEmailForm({'email': email})
@@ -80,9 +79,8 @@ def send_cv_email(request, pk):
         response_data = {'status': 'error', 'message': 'Invalid email address'}
         if request.headers.get('Content-Type') == 'application/json':
             return JsonResponse(response_data, status=400)
-        else:
-            messages.error(request, response_data['message'])
-            return redirect('cvsai:cv_detail', pk=pk)
+        messages.error(request, response_data['message'])
+        return redirect('cvsai:cv_detail', pk=pk)
 
     try:
         # Queue the Celery task
@@ -96,18 +94,16 @@ def send_cv_email(request, pk):
 
         if request.headers.get('Content-Type') == 'application/json':
             return JsonResponse(response_data)
-        else:
-            messages.success(request, response_data['message'])
-            return redirect('cvsai:cv_detail', pk=pk)
+        messages.success(request, response_data['message'])
+        return redirect('cvsai:cv_detail', pk=pk)
 
-    except Exception as e:
+    except Exception as exc:
         response_data = {
             'status': 'error',
-            'message': f'Failed to queue email task: {str(e)}',
+            'message': f'Failed to queue email task: {str(exc)}',
         }
 
         if request.headers.get('Content-Type') == 'application/json':
             return JsonResponse(response_data, status=500)
-        else:
-            messages.error(request, response_data['message'])
-            return redirect('cvsai:cv_detail', pk=pk)
+        messages.error(request, response_data['message'])
+        return redirect('cvsai:cv_detail', pk=pk)

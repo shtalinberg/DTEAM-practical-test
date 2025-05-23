@@ -63,8 +63,8 @@ def send_cv_pdf_email(resume_id, recipient_email):
 
         # Attach PDF
         filename = f"{resume.full_name.replace(' ', '_')}_resume.pdf"
-        with open(tmp_file_path, 'rb') as f:
-            email.attach(filename, f.read(), 'application/pdf')
+        with open(tmp_file_path, 'rb') as file_obj:
+            email.attach(filename, file_obj.read(), 'application/pdf')
 
         # Send email
         email.send()
