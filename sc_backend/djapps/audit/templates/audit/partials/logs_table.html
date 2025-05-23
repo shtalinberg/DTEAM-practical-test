@@ -1,0 +1,147 @@
+{% load i18n %}
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">
+            <i class="fas fa-list"></i> {% translate "Recent Requests" %}
+            <span class="badge bg-secondary ms-2">{{ page_obj.paginator.count }} {% translate "total" %}</span>
+        </h5>
+        <small class="text-muted">
+            {% translate "Last updated" %}:
+            <span id="last-updated">{{ stats.updated_at|date:"H:i:s" }}</span>
+        </small>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>{% translate "Timestamp" %}</th>
+                        <th>{% translate "Method" %}</th>
+                        <th>{% translate "Path" %}</th>
+                        <th>{% translate "User" %}</th>
+                        <th>{% translate "Status" %}</th>
+                        <th>{% translate "Response Time" %}</th>
+                        <th>{% translate "IP Address" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in page_obj %}
+                        <tr>
+                            <td>
+                                <small class="text-muted">{{ log.formatted_timestamp }}</small>
+                            </td>
+                            <td>
+                                <span class="badge bg-{% if log.method == 'GET' %}primary{% elif log.method == 'POST' %}success{% elif log.method == 'PUT' %}warning{% elif log.method == 'PATCH' %}info{% elif log.method == 'DELETE' %}danger{% else %}secondary{% endif %}">
+                                    {{ log.method }}
+                                </span>
+                            </td>
+                            <td>
+                                <code class="text-dark">{{ log.path }}</code>
+                                {% if log.query_string %}
+                                    <br><small class="text-muted">?{{ log.query_string }}</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if log.user %}
+                                    <i class="fas fa-user text-success"></i> {{ log.user.username }}
+                                {% else %}
+                                    <i class="fas fa-user-slash text-muted"></i>
+                                    <small class="text-muted">{% translate "Anonymous" %}</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if log.response_status %}
+                                    <span class="badge bg-{{ log.status_class }} status-badge">
+                                        {{ log.response_status }}
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-secondary status-badge">N/A</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if log.response_time_ms %}
+                                    <span class="response-time">
+                                        {% if log.response_time_ms < 100 %}
+                                            <i class="fas fa-bolt text-success"></i>
+                                        {% elif log.response_time_ms < 500 %}
+                                            <i class="fas fa-clock text-warning"></i>
+                                        {% else %}
+                                            <i class="fas fa-hourglass text-danger"></i>
+                                        {% endif %}
+                                        {{ log.response_time_ms }}ms
+                                    </span>
+                                {% else %}
+                                    <small class="text-muted">N/A</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if log.remote_ip %}
+                                    <small class="text-muted">{{ log.remote_ip }}</small>
+                                {% else %}
+                                    <small class="text-muted">{% translate "Unknown" %}</small>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-4">
+                                <i class="fas fa-inbox fa-2x mb-2"></i>
+                                <br>{% translate "No requests found" %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+        <div class="card-footer">
+            <nav aria-label="{% translate 'Request logs pagination' %}">
+                <ul class="pagination pagination-sm mb-0 justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               hx-get="?page=1{% for key, value in filters.items %}{% if value %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                               hx-target="#logs-container">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                               hx-get="?page={{ page_obj.previous_page_number }}{% for key, value in filters.items %}{% if value %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                               hx-target="#logs-container">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <li class="page-item active">
+                        <span class="page-link">
+                            {% blocktranslate with current=page_obj.number total=page_obj.paginator.num_pages %}Page {{ current }} of {{ total }}{% endblocktranslate %}
+                        </span>
+                    </li>
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               hx-get="?page={{ page_obj.next_page_number }}{% for key, value in filters.items %}{% if value %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                               hx-target="#logs-container">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                               hx-get="?page={{ page_obj.paginator.num_pages }}{% for key, value in filters.items %}{% if value %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                               hx-target="#logs-container">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
+</div>

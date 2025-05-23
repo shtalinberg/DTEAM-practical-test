@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Request Logs" %} - {% translate "Audit" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stats-card {
+        transition: transform 0.2s;
+    }
+    .stats-card:hover {
+        transform: translateY(-2px);
+    }
+    .status-badge {
+        font-size: 0.8em;
+    }
+    .response-time {
+        color: #6c757d;
+        font-size: 0.9em;
+    }
+    .filter-section {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .auto-refresh {
+            position: relative;
+            top: auto;
+            right: auto;
+            margin-bottom: 1rem;
+            float: right;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Auto-refresh button -->
+    <div class="auto-refresh">
+        <button class="btn btn-outline-primary btn-sm"
+                hx-get="{% url 'audit:log_requests' %}"
+                hx-target="#logs-container"
+                hx-trigger="every 30s">
+            <i class="fas fa-clock"></i> {% translate "Auto-refresh" %}: 30s
+        </button>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col">
+            <h1><i class="fas fa-list-alt"></i> {% translate "Request Logs" %}</h1>
+            <p class="text-muted">{% translate "Monitor HTTP requests and system activity" %}</p>
+        </div>
+    </div>
+
+    <!-- Statistics Dashboard -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card stats-card text-center">
+                <div class="card-body">
+                    <i class="fas fa-globe fa-2x text-primary mb-2"></i>
+                    <h4 class="card-title">{{ stats.total_requests }}</h4>
+                    <p class="card-text text-muted">{% translate "Total Requests" %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card text-center">
+                <div class="card-body">
+                    <i class="fas fa-clock fa-2x text-info mb-2"></i>
+                    <h4 class="card-title">{{ stats.requests_last_hour }}</h4>
+                    <p class="card-text text-muted">{% translate "Last Hour" %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card text-center">
+                <div class="card-body">
+                    <i class="fas fa-calendar-day fa-2x text-success mb-2"></i>
+                    <h4 class="card-title">{{ stats.requests_last_24h }}</h4>
+                    <p class="card-text text-muted">{% translate "Last 24 Hours" %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stats-card text-center">
+                <div class="card-body">
+                    <i class="fas fa-tachometer-alt fa-2x text-warning mb-2"></i>
+                    <h4 class="card-title">{{ stats.avg_response_time|floatformat:0 }}ms</h4>
+                    <p class="card-text text-muted">{% translate "Avg Response Time" %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-section">
+        <form method="get" hx-get="{% url 'audit:log_requests' %}" hx-target="#logs-container" hx-trigger="change, submit">
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="method" class="form-label">{% translate "Method" %}</label>
+                    <select name="method" id="method" class="form-select form-select-sm">
+                        <option value="">{% translate "All Methods" %}</option>
+                        {% for method in unique_methods %}
+                            <option value="{{ method }}" {% if filters.method == method %}selected{% endif %}>
+                                {{ method }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="path" class="form-label">{% translate "Path" %}</label>
+                    <input type="text" name="path" id="path" class="form-control form-control-sm"
+                           placeholder="{% translate 'Filter by path...' %}" value="{{ filters.path }}">
+                </div>
+                <div class="col-md-2">
+                    <label for="user" class="form-label">{% translate "User" %}</label>
+                    <input type="text" name="user" id="user" class="form-control form-control-sm"
+                           placeholder="{% translate 'Username...' %}" value="{{ filters.user }}">
+                </div>
+                <div class="col-md-2">
+                    <label for="status" class="form-label">{% translate "Status" %}</label>
+                    <input type="number" name="status" id="status" class="form-control form-control-sm"
+                           placeholder="200, 404..." value="{{ filters.status }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="fas fa-filter"></i> {% translate "Filter" %}
+                        </button>
+                        <a href="{% url 'audit:log_requests' %}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-times"></i> {% translate "Clear" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Logs Table -->
+    <div id="logs-container">
+        {% include 'audit/partials/logs_table.html' %}
+    </div>
+</div>
+{% endblock %}
