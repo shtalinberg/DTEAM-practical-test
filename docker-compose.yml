@@ -1,0 +1,44 @@
+
+services:
+  postgres:
+    image: postgres:17
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./volumes/postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5434:5432"
+
+  web:
+    build: .
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - STATIC_ROOT=/var/static
+      - MEDIA_ROOT=/var/media
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${SECRET_KEY}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5434
+    ports:
+      - "8888:8000"
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+      - ./volumes/static:/var/static/
+      - ./volumes/media:/var/media/
+
+volumes:
+  postgres_data:
+  static_volume:
