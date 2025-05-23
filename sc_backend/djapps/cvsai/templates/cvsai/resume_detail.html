@@ -33,12 +33,6 @@
           <i class="fas fa-file-pdf"></i> {% translate "Download PDF" %}
         </a></p>
 
-
-        <div class="btn-group">
-          <a href="{% url 'cvsai:cv_list' %}" class="btn btn-sm btn-outline-primary">
-            <i class="fas fa-arrow-left"></i> {% translate "Back to list" %}
-          </a>
-        </div>
       {% else %}
         <div class="alert alert-info">
           <strong>{% translate "No resume found." %}</strong>
@@ -46,5 +40,63 @@
       {% endif %}
     </div>
   </div>
+  <div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <i class="fas fa-envelope"></i> {% translate "Send CV via Email" %}
+        </h5>
+    </div>
+    <div class="card-body">
+        <form id="email-form" method="post" action="{% url 'cvsai:send_cv_email' resume.pk %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label for="email" class="form-label">{% translate "Email Address" %}</label>
+                        <input type="email" class="form-control" id="email" name="email"
+                               placeholder="{% translate 'Enter email address...' %}" required>
+                        <div class="form-text">
+                            {% translate "CV will be sent as PDF attachment" %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success" id="send-email-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            {% translate "Send PDF to Email" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+  <div class="btn-group mt-4 mb-4">
+    <a href="{% url 'cvsai:cv_list' %}" class="btn btn-sm btn-outline-primary">
+      <i class="fas fa-arrow-left"></i> {% translate "Back to list" %}
+    </a>
+  </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('email-form').addEventListener('submit', function(e) {
+    const button = document.getElementById('send-email-btn');
+    const originalText = button.innerHTML;
+
+    // Show loading state
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    button.disabled = true;
+
+    // Reset button after 3 seconds (task will continue in background)
+    setTimeout(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+    }, 3000);
+});
+</script>
+
 {% endblock %}

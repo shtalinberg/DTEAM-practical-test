@@ -1,0 +1,24 @@
+Hello,
+
+Please find attached the CV for {{ resume.full_name }}.
+
+Personal Information:
+- Name: {{ resume.full_name }}
+- Position: {{ resume.title }}
+
+{% if resume.bio %}
+About:
+{{ resume.bio }}
+{% endif %}
+
+{% if resume.contacts.exists %}
+Contact Information:
+{% for contact in resume.contacts.all %}
+- {{ contact.get_contact_type_display }}: {{ contact.value }}
+{% endfor %}
+{% endif %}
+
+This CV was automatically generated and sent from our CV management system.
+
+Best regards,
+CV Management Team
