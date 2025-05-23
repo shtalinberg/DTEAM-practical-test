@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Settings" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1><i class="fas fa-cog"></i> {% translate "Django Settings" %}</h1>
+            <p class="text-muted">{% translate "Settings values made available by context processor" %}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bug"></i> {% translate "Debug Settings" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <td><strong>DEBUG</strong></td>
+                            <td>
+                                <span class="badge bg-{% if settings.DEBUG %}danger{% else %}success{% endif %}">
+                                    {{ settings.DEBUG }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ALLOWED_HOSTS</strong></td>
+                            <td>{{ settings.ALLOWED_HOSTS|join:", "|default:"[]" }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-database"></i> {% translate "TIME ZONE Settings" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tr>
+                            <td><strong>TIME_ZONE</strong></td>
+                            <td>{{ settings.TIME_ZONE }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>USE_TZ</strong></td>
+                            <td>
+                                <span class="badge bg-{% if settings.USE_TZ %}success{% else %}warning{% endif %}">
+                                    {{ settings.USE_TZ }}
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-puzzle-piece"></i> {% translate "Installed Apps" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for app in settings.INSTALLED_APPS %}
+                            <div class="col-md-4 mb-2">
+                                <span class="badge bg-primary">{{ app }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-layer-group"></i> {% translate "Middleware" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ol class="list-group list-group-numbered">
+                        {% for middleware in settings.MIDDLEWARE %}
+                            <li class="list-group-item">
+                                <code>{{ middleware }}</code>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
