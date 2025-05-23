@@ -2,6 +2,7 @@
 services:
   postgres:
     image: postgres:17
+    container_name: ${COMPOSE_PROJECT_NAME}-postgres
     restart: always
     env_file:
       - .env
@@ -12,10 +13,24 @@ services:
     volumes:
       - ./volumes/postgres_data:/var/lib/postgresql/data/
     ports:
-      - "5434:5432"
+      - "5435:5432"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: ${COMPOSE_PROJECT_NAME}-redis
+    restart: always
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./volumes/redis_data:/data
+    networks:
+      - app-network
 
   web:
     build: .
+    container_name: ${COMPOSE_PROJECT_NAME}-web
     restart: always
     env_file:
       - .env
@@ -29,16 +44,49 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5434
+      - POSTGRES_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
     ports:
       - "8888:8000"
     depends_on:
       - postgres
+      - redis
     volumes:
-      - .:/app
+      - .:/code
       - ./volumes/static:/var/static/
       - ./volumes/media:/var/media/
+    networks:
+      - app-network
 
-volumes:
-  postgres_data:
-  static_volume:
+  celery:
+    build: .
+    container_name: ${COMPOSE_PROJECT_NAME}-celery
+    restart: always
+    command: sh -c "cd sc_backend && celery -A djproject worker --loglevel=info"
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${SECRET_KEY}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/code
+      - ./volumes/static:/var/static/
+      - ./volumes/media:/var/media/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

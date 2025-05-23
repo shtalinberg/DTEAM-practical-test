@@ -37,6 +37,7 @@ sc_backend/local_games.py
 # Docker stuff:
 docker/.env
 docker/data/
+volumes/
 
 # Sphinx documentation
 docs/_build/

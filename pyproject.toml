@@ -12,6 +12,8 @@ django = "5.2.1"
 xhtml2pdf = "^0.2.17"
 djangorestframework = "^3.16.0"
 psycopg2-binary = "^2.9.10"
+celery = "^5.5.2"
+redis = "^6.1.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.0"
