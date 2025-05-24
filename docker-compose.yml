@@ -49,11 +49,11 @@ services:
     networks:
       - app-network
 
-  celery:
+celery:
     build: .
     container_name: ${COMPOSE_PROJECT_NAME}-celery
     restart: always
-    command: sh -c "cd sc_backend && celery -A djproject worker --loglevel=info"
+    command: sh -c "cd sc_backend && celery -A djproject worker --loglevel=info --uid=1000 --gid=1000"
     env_file:
       - .env
     environment:

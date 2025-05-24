@@ -145,7 +145,7 @@ STATIC_URL = "static/"
 MEDIA_URL = "/media/"
 
 # Additional locations of static files
-STATICFILES_DIRS = [join_to_project("static")]
+# STATICFILES_DIRS = [join_to_project("static")]
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760 * 10  # 100 MB
 
 REST_FRAMEWORK = {

@@ -1,5 +1,7 @@
 FROM python:3.12-slim
 
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
 WORKDIR /code
 
 # Install system dependencies
@@ -23,12 +25,16 @@ RUN poetry install --only=main
 # Copy project
 COPY . .
 
-# Create staticfiles directory
-RUN mkdir -p allstatic
+# Create directories and set permissions
+RUN mkdir -p allstatic volumes/static volumes/media && \
+    chown -R appuser:appuser /code
 
 # Set environment variables
 ENV PYTHONPATH=/code/sc_backend
 ENV DJANGO_SETTINGS_MODULE=djproject.settings.production
+
+# Switch to non-root user
+USER appuser
 
 # Expose port
 EXPOSE 8000
