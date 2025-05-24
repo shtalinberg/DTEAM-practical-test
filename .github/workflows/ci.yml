@@ -86,7 +86,7 @@ jobs:
 
     - name: Run flake8
       run: |
-        poetry run flake8 sc_backend/ --max-line-length=88 --exclude=migrations,djproject/settings --per-file-ignores="djproject/settings/*.py:F403,F401"
+        poetry run flake8 sc_backend/ --max-line-length=88 --exclude=migrations,sc_backend/djproject/settings
 
     - name: Check black formatting
       run: |
