@@ -1,4 +1,3 @@
-
 services:
   postgres:
     image: postgres:17
@@ -36,18 +35,8 @@ services:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
-      - STATIC_ROOT=/var/static
-      - MEDIA_ROOT=/var/media
-      - DEBUG=${DEBUG}
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - SECRET_KEY=${SECRET_KEY}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - REDIS_URL=redis://redis:6379/0
-      - CELERY_BROKER_URL=redis://redis:6379/0
+      - PYTHONPATH=/code/sc_backend
+      - DJANGO_SETTINGS_MODULE=djproject.settings.production
     ports:
       - "8888:8000"
     depends_on:
@@ -69,18 +58,8 @@ services:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
-      - STATIC_ROOT=/var/static
-      - MEDIA_ROOT=/var/media
-      - DEBUG=${DEBUG}
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - SECRET_KEY=${SECRET_KEY}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - REDIS_URL=redis://redis:6379/0
-      - CELERY_BROKER_URL=redis://redis:6379/0
+      - PYTHONPATH=/code/sc_backend
+      - DJANGO_SETTINGS_MODULE=djproject.settings.production
     depends_on:
       - postgres
       - redis

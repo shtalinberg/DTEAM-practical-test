@@ -26,8 +26,12 @@ COPY . .
 # Create staticfiles directory
 RUN mkdir -p allstatic
 
+# Set environment variables
+ENV PYTHONPATH=/code/sc_backend
+ENV DJANGO_SETTINGS_MODULE=djproject.settings.production
+
 # Expose port
 EXPOSE 8000
 
-# Default command
-CMD ["sh", "-c", "cd sc_backend && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+# Default command - updated path
+CMD ["sh", "-c", "cd sc_backend && python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"]
