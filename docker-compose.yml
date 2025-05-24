@@ -53,7 +53,8 @@ services:
     build: .
     container_name: ${COMPOSE_PROJECT_NAME}-celery
     restart: always
-    command: sh -c "cd sc_backend && celery -A djproject worker --loglevel=info --uid=1000 --gid=1000"
+    # Remove the uid/gid options that are causing the error
+    command: sh -c "cd sc_backend && celery -A djproject worker --loglevel=info"
     env_file:
       - .env
     environment:
