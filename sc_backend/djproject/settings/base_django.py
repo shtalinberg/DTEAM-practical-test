@@ -161,6 +161,17 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@example.com')
 
+# Translation Service Configuration
+TRANSLATION_SERVICE = os.getenv(
+    'TRANSLATION_SERVICE', 'mock'
+)  # 'mock', 'google', 'openai'
+
+# Google Translate API (free tier: 500k chars/month)
+GOOGLE_TRANSLATE_API_KEY = os.getenv('GOOGLE_TRANSLATE_API_KEY', '')
+
+# OpenAI API (paid - ~$0.01-0.05 per CV translation)
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
+
 
 try:
     from .base_celery import *

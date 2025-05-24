@@ -2,18 +2,17 @@ import json
 
 from django.contrib import messages
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.defaultfilters import slugify
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 
+from cvsai.constants import SUPPORTED_LANGUAGES
+from cvsai.forms import SendCVEmailForm
 from cvsai.models import Resume
+from cvsai.tasks import send_cv_pdf_email
+from cvsai.translation_services import translate_cv_content
 from cvsai.utils import render_to_pdf
-from .forms import SendCVEmailForm
-from .models import Resume
-from .tasks import send_cv_pdf_email
-
-# Create your views here.
 
 
 class ResumeListView(ListView):
@@ -107,3 +106,52 @@ def send_cv_email(request, pk):
             return JsonResponse(response_data, status=500)
         messages.error(request, response_data['message'])
         return redirect('cvsai:cv_detail', pk=pk)
+
+
+def translate_cv(request, pk):
+    """
+    Translate CV content to selected language.
+    Supports both POST (with language) and GET (show translation page).
+    """
+    resume = get_object_or_404(Resume, pk=pk)
+
+    if request.method == 'POST':
+        # Handle AJAX translation request
+        try:
+            if request.content_type == 'application/json':
+                data = json.loads(request.body)
+                target_language = data.get('language')
+            else:
+                target_language = request.POST.get('language')
+
+            if not target_language:
+                return JsonResponse(
+                    {'error': 'Language parameter is required'}, status=400
+                )
+
+            if target_language not in SUPPORTED_LANGUAGES:
+                return JsonResponse(
+                    {'error': f'Language {target_language} is not supported'},
+                    status=400,
+                )
+
+            # Perform translation
+            translated_content = translate_cv_content(resume, target_language)
+
+            return JsonResponse(
+                {
+                    'success': True,
+                    'translated_content': translated_content,
+                    'original_resume_id': resume.id,
+                }
+            )
+
+        except Exception as exc:
+            return JsonResponse(
+                {'error': f'Translation failed: {str(exc)}'}, status=500
+            )
+
+    else:
+        # GET request - show translation interface
+        context = {'resume': resume, 'supported_languages': SUPPORTED_LANGUAGES}
+        return render(request, 'cvsai/translate_cv.html', context)

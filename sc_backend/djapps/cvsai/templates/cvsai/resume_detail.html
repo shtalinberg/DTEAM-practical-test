@@ -73,6 +73,44 @@
         </form>
     </div>
   </div>
+
+  <!-- Додайте цей блок у ваш cv_detail.html template поруч з PDF кнопкою -->
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <i class="fas fa-language"></i> {% translate "Translation" %}
+        </h5>
+    </div>
+    <div class="card-body">
+        <p class="text-muted mb-3">
+            {% translate "Translate this CV into rare and minority languages" %}
+        </p>
+        <div class="d-flex gap-2">
+            <a href="{% url 'cvsai:translate_cv' resume.pk %}" class="btn btn-info">
+                <i class="fas fa-globe"></i> {% translate "Translate CV" %}
+            </a>
+            <!-- Quick translate dropdown (optional) -->
+            <div class="dropdown">
+                <button class="btn btn-outline-info dropdown-toggle" type="button"
+                        id="quickTranslateDropdown" data-bs-toggle="dropdown">
+                    <i class="fas fa-language"></i> {% translate "Quick Translate" %}
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="quickTranslate('br')">🇫🇷 Breton</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="quickTranslate('oc')">🇫🇷 Occitan</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="quickTranslate('kw')">🏴󠁧󠁢󠁣󠁯󠁲󠁿 Cornish</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="quickTranslate('se')">🇳🇴 Northern Sami</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'cvsai:translate_cv' resume.pk %}">
+                        {% translate "View All Languages" %} →
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
   <div class="btn-group mt-4 mb-4">
     <a href="{% url 'cvsai:cv_list' %}" class="btn btn-sm btn-outline-primary">
       <i class="fas fa-arrow-left"></i> {% translate "Back to list" %}
@@ -97,6 +135,13 @@ document.getElementById('email-form').addEventListener('submit', function(e) {
         button.disabled = false;
     }, 3000);
 });
+
+function quickTranslate(languageCode) {
+    // Redirect to translation page with pre-selected language
+    const url = new URL('{% url "cvsai:translate_cv" resume.pk %}', window.location.origin);
+    url.searchParams.set('lang', languageCode);
+    window.location.href = url.toString();
+
 </script>
 
 {% endblock %}
