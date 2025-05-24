@@ -1,5 +1,24 @@
 # DTEAM - Django Developer Practical Test
 
+Project Folder Structure
+========================
+
+repo_root/                     # Project root directory
+│── allstatic/                 # Collected static files
+│── media/                     # Uploaded media files
+│── volumes/                   # Docker volumes files
+│── sc_backend/                # Main source code directory for backend
+│   ├── djapps/                # All our Django applications
+│   │   ├── audit/               # app audit
+│   │   ├── core/                # app core
+│   │   ├── cvsai/               # app cvsai -  CVs with AI
+│   ├── djproject/             # Django project configuration (settings, URLs, etc.)
+│   ├── manage.py
+│── .gitignore
+│── Makefile
+│── README.md
+│── ....
+
 ## Python Virtual Environment Setup
 
 ### Prerequisites
