@@ -31,3 +31,76 @@ CONTACT_TYPES = [
     (CT_SKYPE, 'Skype'),
     (CT_OTHER, 'Other'),
 ]
+
+
+# Language mappings for different services
+SUPPORTED_LANGUAGES = {
+    'kw': {
+        'name': 'Cornish',
+        'google': 'co',
+    },  # Cornish not widely supported
+    'gv': {
+        'name': 'Manx',
+        'google': None,
+    },  # Very rare language
+    'br': {
+        'name': 'Breton',
+        'google': 'br',
+    },
+    'iu': {
+        'name': 'Inuktitut',
+        'google': None,
+    },
+    'kl': {
+        'name': 'Kalaallisut',
+        'google': None,
+    },
+    'rom': {
+        'name': 'Romani',
+        'google': None,
+    },
+    'oc': {
+        'name': 'Occitan',
+        'google': 'oc',
+    },
+    'lad': {
+        'name': 'Ladino',
+        'google': None,
+    },
+    'se': {
+        'name': 'Northern Sami',
+        'google': None,
+    },
+    'hsb': {
+        'name': 'Upper Sorbian',
+        'google': None,
+    },
+    'csb': {
+        'name': 'Kashubian',
+        'google': None,
+    },
+    'zza': {
+        'name': 'Zazaki',
+        'google': None,
+    },
+    'cv': {
+        'name': 'Chuvash',
+        'google': None,
+    },
+    'liv': {
+        'name': 'Livonian',
+        'google': None,
+    },
+    'tsd': {
+        'name': 'Tsakonian',
+        'google': None,
+    },
+    'srn': {
+        'name': 'Saramaccan',
+        'google': None,
+    },
+    'bi': {
+        'name': 'Bislama',
+        'google': None,
+    },
+}

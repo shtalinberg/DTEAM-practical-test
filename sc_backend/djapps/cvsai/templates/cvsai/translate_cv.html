@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Translate CV" %} - {{ resume.full_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .translation-result {
+        display: none;
+        border: 2px solid #28a745;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+        background-color: #f8fff9;
+    }
+    .language-selector {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    .loading-spinner {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'cvsai:cv_list' %}">{% translate "CVs" %}</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ resume.get_absolute_url }}">{{ resume.full_name }}</a>
+                    </li>
+                    <li class="breadcrumb-item active">{% translate "Translate" %}</li>
+                </ol>
+            </nav>
+            <h1><i class="fas fa-language"></i> {% translate "Translate CV" %}</h1>
+            <p class="text-muted">{% translate "Translate" %} {{ resume.full_name }}'s {% translate "CV into rare and minority languages" %}</p>
+        </div>
+    </div>
+
+    <!-- Original CV Preview -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-file-alt"></i> {% translate "Original CV" %} (English)
+            </h5>
+        </div>
+        <div class="card-body">
+            <h4>{{ resume.full_name }}</h4>
+            <p class="text-muted">{{ resume.title }}</p>
+            {% if resume.bio %}
+                <p>{{ resume.bio }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Translation Controls -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-globe"></i> {% translate "Select Language" %}
+            </h5>
+        </div>
+        <div class="card-body">
+            <form id="translation-form">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-8">
+                        <label for="language-select" class="form-label">
+                            {% translate "Target Language" %}
+                        </label>
+                        <select class="form-select" id="language-select" name="language" required>
+                            <option value="">{% translate "Choose a language..." %}</option>
+                            {% for code, info in supported_languages.items %}
+                                <option value="{{ code }}">{{ info.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">
+                            {% translate "Select from rare and minority languages" %}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">&nbsp;</label>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" id="translate-btn">
+                                <i class="fas fa-language"></i> {% translate "Translate CV" %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Loading Spinner -->
+            <div class="loading-spinner text-center mt-3">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">{% translate "Translating..." %}</span>
+                </div>
+                <p class="mt-2 text-muted">{% translate "Translating CV content..." %}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Translation Result -->
+    <div class="translation-result" id="translation-result">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-check-circle text-success"></i>
+                    {% translate "Translated CV" %} - <span id="target-language-name"></span>
+                </h5>
+            </div>
+            <div class="card-body" id="translated-content">
+                <!-- Translated content will be inserted here -->
+            </div>
+            <div class="card-footer">
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success" onclick="downloadTranslatedPDF()">
+                        <i class="fas fa-download"></i> {% translate "Download Translated PDF" %}
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="translateAnother()">
+                        <i class="fas fa-redo"></i> {% translate "Translate to Another Language" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('translation-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const languageSelect = document.getElementById('language-select');
+    const selectedLanguage = languageSelect.value;
+
+    if (!selectedLanguage) {
+        alert('{% translate "Please select a language" %}');
+        return;
+    }
+
+    // Show loading state
+    const translateBtn = document.getElementById('translate-btn');
+    const loadingSpinner = document.querySelector('.loading-spinner');
+    const translationResult = document.getElementById('translation-result');
+
+    translateBtn.disabled = true;
+    loadingSpinner.style.display = 'block';
+    translationResult.style.display = 'none';
+
+    try {
+        const response = await fetch('{% url "cvsai:translate_cv" resume.pk %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                language: selectedLanguage
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            displayTranslation(data.translated_content);
+        } else {
+            alert('Translation failed: ' + (data.error || 'Unknown error'));
+        }
+
+    } catch (error) {
+        alert('Translation failed: ' + error.message);
+    } finally {
+        translateBtn.disabled = false;
+        loadingSpinner.style.display = 'none';
+    }
+});
+
+function displayTranslation(content) {
+    const resultDiv = document.getElementById('translation-result');
+    const contentDiv = document.getElementById('translated-content');
+    const languageNameSpan = document.getElementById('target-language-name');
+
+    languageNameSpan.textContent = content.language_name;
+
+    // Build translated content HTML
+    let html = `
+        <h4>${content.firstname} ${content.lastname}</h4>
+        <p class="text-muted">${content.title}</p>
+    `;
+
+    if (content.bio) {
+        html += `<p>${content.bio}</p>`;
+    }
+
+    if (content.skills.length > 0) {
+        html += '<h5><i class="fas fa-cogs"></i> Skills</h5><ul>';
+        content.skills.forEach(skill => {
+            html += `<li><strong>${skill.name}</strong> - ${skill.level}</li>`;
+        });
+        html += '</ul>';
+    }
+
+    if (content.projects.length > 0) {
+        html += '<h5><i class="fas fa-project-diagram"></i> Projects</h5>';
+        content.projects.forEach(project => {
+            html += `
+                <div class="mb-3">
+                    <h6>${project.title}</h6>
+                    <p>${project.description}</p>
+                    ${project.url ? `<small><a href="${project.url}" target="_blank">${project.url}</a></small>` : ''}
+                </div>
+            `;
+        });
+    }
+
+    contentDiv.innerHTML = html;
+    resultDiv.style.display = 'block';
+
+    // Scroll to result
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
+function translateAnother() {
+    document.getElementById('translation-result').style.display = 'none';
+    document.getElementById('language-select').value = '';
+}
+
+function downloadTranslatedPDF() {
+    alert('{% translate "PDF download for translated content coming soon!" %}');
+    // TODO: Implement translated PDF download
+}
+</script>
+{% endblock %}

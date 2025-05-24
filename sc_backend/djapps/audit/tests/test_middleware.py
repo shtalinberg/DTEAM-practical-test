@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
-from django.test import Client, RequestFactory, override_settings
+from django.test import Client, RequestFactory
 from django.urls import reverse
 
 import pytest
+
 from audit.middleware import RequestLoggingMiddleware
 from audit.models import RequestLog
 
@@ -41,7 +42,8 @@ class TestRequestLoggingMiddleware:
     def test_get_client_ip_from_forwarded_headers(self, middleware, factory):
         """Test getting client IP from forwarded headers."""
         request = factory.get('/')
-        request.META['HTTP_X_FORWARDED_FOR'] = '203.0.113.195, 70.41.3.18, 150.172.238.178'
+        ip_xforwarded_for_list = '203.0.113.195, 70.41.3.18, 150.172.238.178'
+        request.META['HTTP_X_FORWARDED_FOR'] = ip_xforwarded_for_list
 
         ip = middleware._get_client_ip(request)
         assert ip == '203.0.113.195'  # Should take first IP
@@ -65,8 +67,7 @@ class TestRequestLoggingIntegration:
             password='testpass123'
         )
 
-    @override_settings(ENABLE_REQUEST_LOGGING=True)
-    def test_request_is_logged(self, client):
+    def test_get_request_is_logged(self, client):
         """Test that a request is properly logged."""
         initial_count = RequestLog.objects.count()
 

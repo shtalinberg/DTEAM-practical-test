@@ -5,6 +5,7 @@ from cvsai.views import (
     ResumeListView,
     download_resume_pdf,
     send_cv_email,
+    translate_cv,
 )
 
 app_name = 'cvsai'
@@ -14,4 +15,5 @@ urlpatterns = [
     path('cv/<int:pk>/', ResumeDetailView.as_view(), name='cv_detail'),
     path('cv/<int:pk>/download-pdf/', download_resume_pdf, name='cv_download_pdf'),
     path('cv/<int:pk>/send-email/', send_cv_email, name='send_cv_email'),
+    path('cv/<int:pk>/translate/', translate_cv, name='translate_cv'),
 ]
