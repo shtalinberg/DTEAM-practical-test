@@ -3,6 +3,7 @@ from django.test import Client, RequestFactory, override_settings
 from django.urls import reverse
 
 import pytest
+
 from audit.middleware import RequestLoggingMiddleware
 from audit.models import RequestLog
 
@@ -65,8 +66,7 @@ class TestRequestLoggingIntegration:
             password='testpass123'
         )
 
-    @override_settings(ENABLE_REQUEST_LOGGING=True)
-    def test_request_is_logged(self, client):
+    def test_get_request_is_logged(self, client):
         """Test that a request is properly logged."""
         initial_count = RequestLog.objects.count()
 

@@ -3,10 +3,11 @@ import json
 from django.urls import reverse
 
 import pytest
-from cvsai.models import Contact, Project, Resume, ResumeSkill, Skill
-from cvsai.tests.constants import TEST_EMAIL
 from rest_framework import status
 from rest_framework.test import APIClient
+
+from cvsai.models import Resume, Skill
+from cvsai.tests.constants import TEST_EMAIL
 
 
 @pytest.fixture
@@ -56,27 +57,23 @@ class TestResumeAPI:
             'lastname': 'Rebrov',
             'title': 'Frontend Developer',
             'bio': 'Frontend specialist',
-            'skills': [
-                {'skill_id': sample_skill.id, 'level': 'expert'}
-            ],
+            'skills': [{'skill_id': sample_skill.id, 'level': 'expert'}],
             'projects': [
                 {
                     'title': 'React App',
                     'description': 'Modern React application',
                     'url': 'https://github.com/rebrov/react-app',
-                    'start_date': '2023-06-01'
+                    'start_date': '2023-06-01',
                 }
             ],
             'contacts': [
                 {'contact_type': 'email', 'value': 'rebrov@example.com'},
-                {'contact_type': 'github', 'value': 'https://github.com/rebrov'}
-            ]
+                {'contact_type': 'github', 'value': 'https://github.com/rebrov'},
+            ],
         }
 
         response = api_client.post(
-            url,
-            data=json.dumps(payload),
-            content_type='application/json'
+            url, data=json.dumps(payload), content_type='application/json'
         )
 
         assert response.status_code == status.HTTP_201_CREATED
@@ -105,13 +102,11 @@ class TestResumeAPI:
             'firstname': 'John Updated',
             'lastname': 'Wick',
             'title': 'Senior Software Developer',
-            'bio': 'Updated bio'
+            'bio': 'Updated bio',
         }
 
         response = api_client.put(
-            url,
-            data=json.dumps(payload),
-            content_type='application/json'
+            url, data=json.dumps(payload), content_type='application/json'
         )
 
         assert response.status_code == status.HTTP_200_OK
@@ -128,14 +123,10 @@ class TestResumeAPI:
     def test_partial_update_resume(self, api_client, sample_resume):
         """Test PATCH /api/resumes/{id}/ - Partial update resume."""
         url = reverse('cvsai_api:resume-detail', kwargs={'pk': sample_resume.pk})
-        payload = {
-            'title': 'Lead Developer'
-        }
+        payload = {'title': 'Lead Developer'}
 
         response = api_client.patch(
-            url,
-            data=json.dumps(payload),
-            content_type='application/json'
+            url, data=json.dumps(payload), content_type='application/json'
         )
 
         assert response.status_code == status.HTTP_200_OK
@@ -144,7 +135,6 @@ class TestResumeAPI:
         # Verify in database
         sample_resume.refresh_from_db()
         assert sample_resume.title == 'Lead Developer'
-
 
     def test_delete_resume(self, api_client, sample_resume):
         """Test DELETE /api/resumes/{id}/ - Delete resume."""
@@ -184,9 +174,7 @@ class TestSkillAPI:
         payload = {'name': 'JavaScript'}
 
         response = api_client.post(
-            url,
-            data=json.dumps(payload),
-            content_type='application/json'
+            url, data=json.dumps(payload), content_type='application/json'
         )
 
         assert response.status_code == status.HTTP_201_CREATED
@@ -206,14 +194,11 @@ class TestAPIValidation:
         url = reverse('cvsai_api:resume-list-create')
         payload = {
             'firstname': '',  # Empty firstname should be invalid
-            'lastname': 'Doe'
+            'lastname': 'Doe',
         }
 
         response = api_client.post(
-            url,
-            data=json.dumps(payload),
-            content_type='application/json'
+            url, data=json.dumps(payload), content_type='application/json'
         )
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
-
