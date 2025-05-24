@@ -87,7 +87,9 @@ def send_cv_email(request, pk):
 
         response_data = {
             'status': 'success',
-            'message': f'CV is being sent to {email}. You will be notified when complete.',
+            'message': (
+                f"CV is being sent to {email}. " "You will be notified when complete."
+            ),
             'task_id': task.id,
         }
 

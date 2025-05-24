@@ -67,7 +67,8 @@ class OpenAITranslationService(BaseTranslationService):
             }
 
             prompt = (
-                f"Translate the following text from {source_language} to {target_language}. "
+                f"Translate the following text from {source_language} "
+                f"to {target_language}. "
                 f"Return only the translation without any additional text:\n\n{text}"
             )
 
@@ -76,7 +77,10 @@ class OpenAITranslationService(BaseTranslationService):
                 'messages': [
                     {
                         'role': 'system',
-                        'content': 'You are a professional translator. Translate accurately and maintain formatting.',
+                        'content': (
+                            "You are a professional translator. "
+                            "Translate accurately and maintain formatting."
+                        ),
                     },
                     {'role': 'user', 'content': prompt},
                 ],

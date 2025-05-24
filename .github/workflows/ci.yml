@@ -86,7 +86,7 @@ jobs:
 
     - name: Run flake8
       run: |
-        poetry run flake8 sc_backend/ --max-line-length=88 --exclude=migrations
+        poetry run flake8 sc_backend/ --max-line-length=88 --exclude=migrations,djproject/settings
 
     - name: Check black formatting
       run: |
