@@ -49,7 +49,7 @@ services:
     networks:
       - app-network
 
-celery:
+  celery:
     build: .
     container_name: ${COMPOSE_PROJECT_NAME}-celery
     restart: always
