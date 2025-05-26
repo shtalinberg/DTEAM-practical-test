@@ -164,7 +164,7 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@example.com')
 
 # Translation Service Configuration
 TRANSLATION_SERVICE = os.getenv(
-    'TRANSLATION_SERVICE', 'mock'
+    'TRANSLATION_SERVICE', 'openai'
 )  # 'mock', 'google', 'openai'
 
 # Google Translate API (free tier: 500k chars/month)

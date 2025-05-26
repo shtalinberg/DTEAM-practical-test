@@ -15,7 +15,7 @@
         <h2>{{ resume.title }}</h2>
         <p><strong>{% translate "Bio:" %}</strong> {{ resume.bio|linebreaks }}</p>
         <p><strong>{% translate "Skills:" %}</strong> {{ resume.skills.all|join:", " }}</p>
-
+        <p><strong>{% translate "Contacts:" %}</strong> {% for contact in resume.contacts.all %}<br />{{ contact.contact_type }}: {{ contact.value }} {% endfor %}</p>
           {% for project in resume.projects.all %}
           {% if forloop.first %}<p><strong>{% translate "Projects:" %}</strong>{% endif %}
             <div class="card mb-2">

@@ -111,7 +111,7 @@ class MockTranslationService(BaseTranslationService):
 
 def get_translation_service():
     """Get configured translation service."""
-    service_type = getattr(settings, 'TRANSLATION_SERVICE', 'mock')
+    service_type = getattr(settings, 'TRANSLATION_SERVICE', 'openai')
 
     if service_type == 'google':
         return GoogleTranslateService()
@@ -123,30 +123,37 @@ def get_translation_service():
 def translate_cv_content(resume, target_language: str) -> dict:
     """
     Translate CV content to target language.
-
     Returns dict with translated content.
     """
     service = get_translation_service()
-
     translated_content = {
-        'firstname': resume.firstname,  # Names usually don't translate
+        'firstname': resume.firstname,
         'lastname': resume.lastname,
         'title': service.translate(resume.title, target_language),
         'bio': service.translate(resume.bio, target_language) if resume.bio else '',
         'skills': [],
         'projects': [],
-        'contacts': resume.contacts.all(),  # Contacts don't translate
+        'contacts': [],  # Змінено на список
         'language': target_language,
         'language_name': SUPPORTED_LANGUAGES.get(target_language, {}).get(
             'name', target_language
         ),
     }
 
-    # Translate skills (skill names might not translate well)
+    for contact in resume.contacts.all():
+        translated_content['contacts'].append(
+            {
+                'type': contact.contact_type,
+                'value': contact.value,
+                'id': contact.id,
+            }
+        )
+
+    # Translate skills
     for resume_skill in resume.resumeskill_set.all():
         translated_content['skills'].append(
             {
-                'name': resume_skill.skill.name,  # Keep original skill name
+                'name': resume_skill.skill.name,
                 'level': service.translate(
                     resume_skill.get_level_display(), target_language
                 ),
@@ -160,8 +167,10 @@ def translate_cv_content(resume, target_language: str) -> dict:
                 'title': service.translate(project.title, target_language),
                 'description': service.translate(project.description, target_language),
                 'url': project.url,
-                'start_date': project.start_date,
-                'end_date': project.end_date,
+                'start_date': (
+                    project.start_date.isoformat() if project.start_date else None
+                ),
+                'end_date': project.end_date.isoformat() if project.end_date else None,
                 'is_ongoing': project.is_ongoing,
             }
         )

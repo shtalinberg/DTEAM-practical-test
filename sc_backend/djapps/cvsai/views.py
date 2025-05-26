@@ -119,13 +119,12 @@ def translate_cv(request, pk):
 
     if request.method == 'POST':
         # Handle AJAX translation request
+        if request.content_type == 'application/json':
+            data = json.loads(request.body)
+            target_language = data.get('language')
+        else:
+            target_language = request.POST.get('language')
         try:
-            if request.content_type == 'application/json':
-                data = json.loads(request.body)
-                target_language = data.get('language')
-            else:
-                target_language = request.POST.get('language')
-
             if not target_language:
                 return JsonResponse(
                     {'error': 'Language parameter is required'}, status=400
