@@ -3,6 +3,7 @@
 Project Folder Structure
 ========================
 
+```text
 repo_root/                     # Project root directory
 │── allstatic/                 # Collected static files
 │── media/                     # Uploaded media files
@@ -18,6 +19,7 @@ repo_root/                     # Project root directory
 │── Makefile
 │── README.md
 │── ....
+```
 
 ## Python Virtual Environment Setup
 
